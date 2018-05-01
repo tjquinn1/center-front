@@ -1,25 +1,30 @@
 <template>
-    <v-flex>
-        <h6>{{ this.time }}</h6>
-        <h4>{{ this.time.task.task_name }}</h4>
-        <h6>{{ this.time.task.project.project_name }}</h6>
-        <h6>{{ this.time.task.project.client.name }}</h6>
-        <h6 v-if="time.non_billable === true">non billable</h6>
-        <h1><time>{{this.hours}}:{{ this.minutes }}</time></h1>
-        <div class="stopwatch"></div>
-        <v-btn v-if="running == false" @click.native="start()" dark color="green">
+<div>
+      <v-list-tile :key="time.task.task_name" @click="">
+        <v-list-tile-content>
+          <v-list-tile-title>{{ time.task.task_name }}</v-list-tile-title>
+          <v-list-tile-sub-title >{{ time.task.project.project_name }}</v-list-tile-sub-title>
+        </v-list-tile-content>
+        <v-list-tile-content>
+          <h1><time>{{hours}}:{{ minutes }}</time></h1>
+        </v-list-tile-content>
+        <v-list-tile-action>
+          <v-btn v-if="running == false" @click.native="start()" dark color="green">
             <span>Start</span>
-        </v-btn>
-        <v-btn v-if="running == true" @click.native="stop()" dark color="red">
+          </v-btn>
+          <v-btn v-if="running == true" @click.native="stop()" dark color="red">
             <span>Stop</span>
-        </v-btn>
-    </v-flex>
+          </v-btn>
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider v-if="index + 1 < times.length" :key="`divider-${index}`"></v-divider>
+</div>
 </template>
 
 <script>
 export default {
-  props: ['time'],
-  name: 'TaskItem',
+  props: ['time', 'times', 'index'],
+  name: 'Tasktime',
   data: function() {
     return {
       running: false,

@@ -173,11 +173,15 @@
 					<v-tab-item id="3">
 						<v-card flat>
 							<v-card-text>
-								<task-item
-									v-for="time in times"
-									v-bind:time="time"
-									v-bind:key="time.id">
-								</task-item>
+                  <v-list three-line>
+                    <task-item
+                      v-for="(time, index) in times"
+                      v-bind:time="time"
+                      v-bind:index="index"
+                      v-bind:times="times"
+                      v-bind:key="time.id">
+                    </task-item>
+                  </v-list>
 							</v-card-text>
 						</v-card>
 					</v-tab-item>
@@ -387,6 +391,7 @@ export default {
     tabDate: function(idx) {
       var dayIndex = this.today.getDay();
       if (idx > dayIndex) {
+        //handle sunday
         if (dayIndex == 0) {
           dayIndex = 7;
         }
@@ -398,6 +403,7 @@ export default {
         this.getDay(this.saveDate);
       } else {
         if (idx == 0) {
+          //handle sunday
           idx = 7;
           var day = idx - dayIndex;
         } else {
