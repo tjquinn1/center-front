@@ -3,7 +3,7 @@
       <v-list-tile :key="time.task.task_name" @click="">
         <v-list-tile-content>
           <v-list-tile-title>{{ time.task.task_name }}</v-list-tile-title>
-          <v-list-tile-sub-title >{{ time.task.project.project_name }}</v-list-tile-sub-title>
+          <v-list-tile-sub-title >{{ time.task.project.project_name }} - ({{ time.task.project.client.name }})</v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-content>
           <h1><time>{{hours}}:{{ minutes }}</time></h1>

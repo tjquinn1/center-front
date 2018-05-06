@@ -151,22 +151,30 @@
 					<v-tab-item id="1">
 						<v-card flat>
 							<v-card-text>
-								<task-item
-									v-for="time in times"
-									v-bind:time="time"
-									v-bind:key="time.id">
-								</task-item>
+                  <v-list three-line>
+                    <task-item
+                      v-for="(time, index) in times"
+                      v-bind:time="time"
+                      v-bind:index="index"
+                      v-bind:times="times"
+                      v-bind:key="time.id">
+                    </task-item>
+                  </v-list>
 							</v-card-text>
 						</v-card>
 					</v-tab-item>
 					<v-tab-item id="2">
 						<v-card flat>
 							<v-card-text>
-								<task-item
-									v-for="time in times"
-									v-bind:time="time"
-									v-bind:key="time.id">
-								</task-item>
+                  <v-list three-line>
+                    <task-item
+                      v-for="(time, index) in times"
+                      v-bind:time="time"
+                      v-bind:index="index"
+                      v-bind:times="times"
+                      v-bind:key="time.id">
+                    </task-item>
+                  </v-list>
 							</v-card-text>
 						</v-card>
 					</v-tab-item>
@@ -188,44 +196,60 @@
 					<v-tab-item id="4">
 						<v-card flat>
 							<v-card-text>
-								<task-item
-									v-for="time in times"
-									v-bind:time="time"
-									v-bind:key="time.id">
-								</task-item>
+                  <v-list three-line>
+                    <task-item
+                      v-for="(time, index) in times"
+                      v-bind:time="time"
+                      v-bind:index="index"
+                      v-bind:times="times"
+                      v-bind:key="time.id">
+                    </task-item>
+                  </v-list>
 							</v-card-text>
 						</v-card>
 					</v-tab-item>
 					<v-tab-item id="5">
 						<v-card flat>
 							<v-card-text>
-								<task-item
-									v-for="time in times"
-									v-bind:time="time"
-									v-bind:key="time.id">
-								</task-item>
+                  <v-list three-line>
+                    <task-item
+                      v-for="(time, index) in times"
+                      v-bind:time="time"
+                      v-bind:index="index"
+                      v-bind:times="times"
+                      v-bind:key="time.id">
+                    </task-item>
+                  </v-list>
 							</v-card-text>
 						</v-card>
 					</v-tab-item>
 					<v-tab-item id="6">
 						<v-card flat>
 							<v-card-text>
-								<task-item
-									v-for="time in times"
-									v-bind:time="time"
-									v-bind:key="time.id">
-								</task-item>
+                  <v-list three-line>
+                    <task-item
+                      v-for="(time, index) in times"
+                      v-bind:time="time"
+                      v-bind:index="index"
+                      v-bind:times="times"
+                      v-bind:key="time.id">
+                    </task-item>
+                  </v-list>
 							</v-card-text>
 						</v-card>
 					</v-tab-item>
 					<v-tab-item id="0">
 						<v-card flat>
 							<v-card-text>
-								<task-item
-									v-for="time in times"
-									v-bind:time="time"
-									v-bind:key="time.id">
-								</task-item>
+                  <v-list three-line>
+                    <task-item
+                      v-for="(time, index) in times"
+                      v-bind:time="time"
+                      v-bind:index="index"
+                      v-bind:times="times"
+                      v-bind:key="time.id">
+                    </task-item>
+                  </v-list>
 							</v-card-text>
 						</v-card>
 					</v-tab-item>
@@ -321,6 +345,7 @@ export default {
     nextDay: function() {
       this.tomorrow.setDate(this.today.getDate() + 1);
       this.now = this.today.setDate(this.tomorrow.getDate());
+      this.now = this.today.setMonth(this.tomorrow.getMonth());
       this.dateString = this.today.toDateString();
       this.saveDate = this.formatDate(this.today);
       this.getDay(this.saveDate);
@@ -328,9 +353,17 @@ export default {
       this.tab = this.today.getDay().toString();
     },
     previousDay: function() {
-      this.tomorrow.setDate(this.today.getDate() - 1);
-      this.now = this.today.setDate(this.tomorrow.getDate());
-      this.saveDate = this.formatDate(this.today);
+      if (this.today.getDate() - 1 == 0) {
+        this.tomorrow.setDate(this.today.getDate() - 1);
+        this.now = this.today.setDate(this.tomorrow.getDate());
+        this.now = this.today.setMonth(this.tomorrow.getMonth());
+        this.saveDate = this.formatPreviousDate(this.today);
+      } else {
+        this.tomorrow.setDate(this.today.getDate() - 1);
+        this.now = this.today.setDate(this.tomorrow.getDate());
+        this.saveDate = this.formatDate(this.today);
+      }
+
       this.getDay(this.saveDate);
       this.dateString = this.today.toDateString();
       //set tab
@@ -369,6 +402,39 @@ export default {
 
       return year + '-' + monthIndex + '-' + day;
     },
+    formatPreviousDate: function(date) {
+      var monthNames = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+      ];
+
+      var dayNames = [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday'
+      ];
+
+      var day = date.getDate();
+      var monthIndex = date.getMonth();
+      var year = date.getFullYear();
+      var dayIndex = date.getDay();
+
+      return year + '-' + monthIndex + '-' + day;
+    },
     addTask: function() {
       var t = {
         task: this.task,
@@ -379,6 +445,7 @@ export default {
     },
     pickerParse: function() {
       var t = this.toDate(this.picker);
+      this.today = this.now = t;
       this.dateString = t.toDateString();
       this.getDay(this.picker);
       //set tab
