@@ -34,8 +34,9 @@ export default {
       seconds: 0
     };
   },
-  watch: {},
-  created: function() {},
+  created: function() {
+    console.log(this.time.time);
+  },
   mounted: function() {},
   methods: {
     calculate: function(seconds, minutes) {

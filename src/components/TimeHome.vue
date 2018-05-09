@@ -43,7 +43,7 @@
                         <v-btn icon @click.native="dialog = false" dark>
                             <v-icon>close</v-icon>
                         </v-btn>
-                        <v-toolbar-title>Settings</v-toolbar-title>
+                        <v-toolbar-title>Add Task</v-toolbar-title>
                         <v-spacer></v-spacer>
                         <v-toolbar-items>
                             <v-btn v-if="time === ''" dark flat @click.native="dialog = false; addTask();">Start Timer</v-btn>
@@ -284,13 +284,19 @@ export default {
       times: null
     };
   },
+  computed: {
+    Items() {
+      return this.items;
+    }
+  },
+
   methods: {
     save() {
       axios.defaults.xsrfCookieName = 'csrftoken';
       axios.defaults.xsrfHeaderName = 'X-CSRFToken';
       axios
         .post(
-          'http://127.0.0.1:8000/time/',
+          'http://127.0.0.1:8000/timepost/',
           {
             time: parseFloat(this.time).toFixed(2),
             task: this.task,
@@ -302,11 +308,13 @@ export default {
             }
           }
         )
-        .then(function() {
+        .then(response => {
           console.log('SUCCESS!!');
+          return this.getDay(this.saveDate);
         })
-        .catch(function() {
+        .catch(function(error) {
           console.log('FAILURE!!');
+          console.log(error);
         });
     },
     getDay: function(date) {
